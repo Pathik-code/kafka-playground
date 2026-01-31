@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+.DS_Store
+.idea/
+.vscode/
+*.log
+docker-compose.override.yml
+# Jupyter
+.ipynb_checkpoints

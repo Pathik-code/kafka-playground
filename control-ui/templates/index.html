@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Playground - Multi-Cluster</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-small">⚡ Kafka PG</div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Clusters</h3>
+                <div id="cluster-list" class="nav-list">
+                    <!-- Populated by JS -->
+                    <div class="nav-item active">Default Cluster</div>
+                </div>
+                <button id="btn-create-cluster" class="btn-sidebar-action">+ New Cluster</button>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Tools</h3>
+                <a href="http://localhost:8080" target="_blank" class="nav-item">Kafka UI ↗</a>
+                <a href="http://localhost:8888" target="_blank" class="nav-item">Jupyter ↗</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <h1 id="current-cluster-title">Default Cluster</h1>
+                <div class="top-actions">
+                    <span id="cluster-status-badge" class="status-badge">Loading...</span>
+                    <!-- Reset Docker Button -->
+                    <button id="btn-reset-docker" class="btn btn-sm" style="background: #f59e0b; color: white;"
+                        title="Prune orphaned resources and restart">🔄 Reset Docker</button>
+                    <!-- Delete Cluster Button (Hidden for default) -->
+                    <button id="btn-delete-cluster" class="btn btn-danger btn-sm" style="display:none;">Delete
+                        Cluster</button>
+                </div>
+            </header>
+
+            <div class="dashboard-scroll">
+                <div class="dashboard-grid">
+
+                    <!-- Stats -->
+                    <div class="card card-status">
+                        <div class="stats-row">
+                            <div class="stat">
+                                <span class="label">Brokers</span>
+                                <span class="value" id="broker-count">-</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Topics</span>
+                                <span class="value" id="topic-count">-</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Zookeeper</span>
+                                <span class="value status-text" id="zk-status">...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Brokers -->
+                    <div class="card card-brokers full-width">
+                        <div class="card-header">
+                            <h2>Brokers</h2>
+                            <div class="actions">
+                                <button id="btn-refresh" class="btn-icon">🔄</button>
+                                <button id="btn-add-broker" class="btn btn-primary btn-sm">➕ Add Broker</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="brokers-list" class="brokers-grid">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topics -->
+                    <div class="card card-topics">
+                        <div class="card-header">
+                            <h2>Topics</h2>
+                            <button id="btn-refresh-topics" class="btn-icon">🔄</button>
+                        </div>
+                        <div class="card-body">
+                            <div id="topics-list" class="topics-list">
+                                <!-- JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Create Topic -->
+                    <div class="card card-create-topic">
+                        <div class="card-header">
+                            <h2>Create Topic</h2>
+                        </div>
+                        <div class="card-body">
+                            <form id="create-topic-form">
+                                <input type="text" id="new-topic-name" placeholder="Topic Name" class="form-input"
+                                    required>
+                                <div class="form-row">
+                                    <input type="number" id="new-topic-partitions" value="3" class="form-input"
+                                        placeholder="Partitions">
+                                    <input type="number" id="new-topic-rep" value="1" class="form-input"
+                                        placeholder="Replication">
+                                </div>
+                                <button type="submit" class="btn btn-primary full-width">Create</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Activity Logs -->
+                    <div class="card card-logs full-width">
+                        <div class="card-header">
+                            <h2>Activity Logs</h2>
+                            <button id="btn-clear-logs" class="btn-icon" title="Clear logs">🗑</button>
+                        </div>
+                        <div class="card-body">
+                            <div id="logs-list" class="logs-list">
+                                <div class="log-entry info">Ready to display activity logs...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
